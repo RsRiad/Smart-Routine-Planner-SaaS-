@@ -1,14 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+import getPrisma from "../utils/prisma.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/jwt.js";
-
-const prisma = new PrismaClient();
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
 export const register = async (req, res) => {
   const { email, password, name } = req.body;
+
+  // Get prisma client lazily (after env vars are loaded)
+  const prisma = getPrisma();
 
   try {
     // Check if user already exists
@@ -90,6 +91,9 @@ export const register = async (req, res) => {
 // @access  Public
 export const login = async (req, res) => {
   const { email, password } = req.body;
+
+  // Get prisma client lazily (after env vars are loaded)
+  const prisma = getPrisma();
 
   try {
     // Find user

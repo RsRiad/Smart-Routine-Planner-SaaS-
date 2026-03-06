@@ -1,22 +1,21 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
 
 // Ensure .env is loaded with absolute path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
-import jwt from "jsonwebtoken";
+// Singleton pattern - reuse the same PrismaClient across the app
+let prisma;
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
+const getPrisma = () => {
+  if (!prisma) {
+    prisma = new PrismaClient();
+  }
+  return prisma;
 };
 
-const verifyToken = (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET);
-};
-
-export { generateToken, verifyToken };
+export default getPrisma;

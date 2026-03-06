@@ -1,4 +1,12 @@
-import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+// Load .env with absolute path FIRST before any other local imports
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+
 import express from "express";
 import cors from "cors";
 import apiRoutes from "./routes/index.js";
@@ -7,6 +15,10 @@ import errorHandler from "./middleware/errorHandler.js";
 const app = express();
 
 app.use(cors());
+
+// Stripe Webhook needs the raw body to verify signature
+app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
+
 app.use(express.json());
 
 app.use("/api", apiRoutes);

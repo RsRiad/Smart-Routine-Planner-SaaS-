@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import getPrisma from "../utils/prisma.js";
 import jwt from "jsonwebtoken";
 import { verifyToken } from "../utils/jwt.js";
 
-const prisma = new PrismaClient();
-
 const protect = async (req, res, next) => {
+  const prisma = getPrisma();
   let token;
 
   if (

@@ -1,0 +1,5 @@
+﻿[1] REGISTER OK | id=0ae7d50b-f8dc-41b9-8062-d45d0c592f09 | trialEndsAt=2026-03-13T09:33:40.219Z
+[2] GET_SUB ERR: {"message":"Server error"}
+[3] PLANS OK | count=3 | proId=5169a0ce-3f27-47dc-9a7e-4f121373c00d
+[5] CANCEL OK | status=CANCELED
+[6] REACTIVATE OK | status=ACTIVE
